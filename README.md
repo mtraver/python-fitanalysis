@@ -28,7 +28,7 @@ calculations as closely as possible.
 
 fitanalysis provides the `Activity` class.
 
-```
+```python
 import fitanalysis
 
 activity = fitanalysis.Activity('my_activity.fit')
@@ -355,8 +355,8 @@ Because Strava removes inactivity for power calculations, both approaches seem
 to be accepted. It's my opinion that removing inactivity is the correct
 approach because, depending on the length of inactivity, not doing so can lead
 to an inflated or deflated estimation of the effort during periods of activity.
-One counter-argument I can see is for interval workouts: it may be desirable to
-include the rest periods in calculations of intensity and training stress
+One counter-argument I can see is for structured workouts: it may be desirable
+to include the rest periods in calculations of intensity and training stress
 because in this case the length of the rest is deliberately chosen as part of
 the workout. Perhaps this is the reason for TrainingPeaks' implementation?
 
