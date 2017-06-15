@@ -12,8 +12,8 @@ def moving_average(time_series, window_len):
 
   The term "area" below means a sum of time-weighted values.
 
-  This implementation follows the SMA_last algorithm proposed in
-  http://eckner.com/papers/Algorithms%20for%20Unevenly%20Spaced%20Time%20Series.pdf
+  This implementation follows the SMA_last algorithm proposed
+  in (Eckner, 2017) (see README for citation).
 
   Args:
     time_series: A pandas.Series of the values to average,

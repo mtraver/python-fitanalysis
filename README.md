@@ -374,6 +374,8 @@ https://www.trainingpeaks.com/blog/normalized-power-intensity-factor-training-st
 
 Coggan, Andrew. (2003, March 13). _TSS and IF - at last!_ Retrieved June 14, 2017, from http://lists.topica.com/lists/wattage/read/message.html?mid=907028398&sort=d&start=9353
 
+Eckner, Andreas. (2017, April 3). _Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators._ Retrieved June 14, 2017, from http://eckner.com/papers/Algorithms%20for%20Unevenly%20Spaced%20Time%20Series.pdf
+
 # License
 This project is licensed under the MIT License. See
 [LICENSE](https://github.com/mtraver/fitanalysis/blob/master/LICENSE) file
