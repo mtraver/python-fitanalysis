@@ -365,7 +365,7 @@ but one takeaway from this example is this: want to inflate your TSS? Try
 disabling autopause (and don't take _really_ long breaks, but apparently
 moderately long breaks are fine).
 
-# Sources
+# References
 
 Coggan, Andrew. (2012, June 20). _Calculate Normalised Power for an Interval._ [Forum comment]. Retrieved June 14, 2017, from http://www.timetriallingforum.co.uk/index.php?/topic/69738-calculate-normalised-power-for-an-interval/&do=findComment&comment=978386
 
