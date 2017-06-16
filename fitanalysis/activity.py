@@ -190,7 +190,7 @@ class Activity(fitparse.FitFile):
       return pandas.DataFrame(rows, columns=fields)
 
   def _detect_start_stop_events(self, records):
-    """Detect periods of inactivity by comparing speed to a threshold value.
+    """Detects periods of inactivity by comparing speed to a threshold value.
 
     Args:
       records: Iterable of fitparse messages. They must contain a 'speed' field.
