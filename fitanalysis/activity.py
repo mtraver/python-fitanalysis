@@ -157,6 +157,21 @@ class Activity(fitparse.FitFile):
     self._clean_up_power_and_cadence()
 
   def _df_from_messages(self, messages, fields, timestamp_index=False):
+    """Creates a DataFrame from an iterable of fitparse messages.
+
+    Args:
+      messages: Iterable of fitparse messages.
+      fields: List of message fields to include in the DataFrame. Each one will
+              be a separate column, and if a field isn't present in a particular
+              message, its value will be set to None.
+      timestamp_index: If True, message timestamps will be used as the index of
+                       the DataFrame. Otherwise the default index is used.
+                       Default is False.
+
+    Returns:
+      A DataFrame with one row per message and columns for each of
+      the given fields.
+    """
     rows = []
     timestamps = []
     for m in messages:
@@ -175,6 +190,25 @@ class Activity(fitparse.FitFile):
       return pandas.DataFrame(rows, columns=fields)
 
   def _detect_start_stop_events(self, records):
+    """Detect periods of inactivity by comparing speed to a threshold value.
+
+    Args:
+      records: Iterable of fitparse messages. They must contain a 'speed' field.
+
+    Returns:
+      A DataFrame indexed by timestamp with these columns:
+        - 'event_type': value is one of {'start','stop'}
+        - 'timer_trigger': always the string 'detected', so that these
+          start/stop events can be distinguished from those present in the
+          .fit file.
+
+      Each row is one event, and its timestamp is guaranteed to be that of a
+      record in the given iterable of messages.
+
+      When the speed of a record drops below the threshold speed a 'stop' event
+      is created with its timestamp, and when the speed rises above the
+      threshold speed a 'start' event is created with its timestamp.
+    """
     stopped = False
     timestamps = []
     events = []
