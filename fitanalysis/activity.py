@@ -43,11 +43,11 @@ class Activity(fitparse.FitFile):
 
     self._remove_stopped_periods = remove_stopped_periods or DEBUG_EXCISE
 
-    self.records = list(self.get_messages('record'))
+    records = list(self.get_messages('record'))
 
     # Get elapsed time before modifying the data
-    self.start_time = self.records[0].get('timestamp').value
-    self.end_time = self.records[-1].get('timestamp').value
+    self.start_time = records[0].get('timestamp').value
+    self.end_time = records[-1].get('timestamp').value
     self.elapsed_time = self.end_time - self.start_time
 
     # Calculated when needed and memoized here
@@ -83,14 +83,14 @@ class Activity(fitparse.FitFile):
       # Detect start/stop events based on stopped threshold speed. If the
       # recording device did not have autopause enabled then this is the only
       # way periods of no movement can be detected and removed.
-      detected_events = self._detect_start_stop_events(self.records)
+      detected_events = self._detect_start_stop_events(records)
       timer_events = timer_events.combine_first(detected_events)
 
     # Build the rows and indices of the DataFrame
     excise = False
     event_index = 0
     rows = []
-    for record in self.records:
+    for record in records:
       curr_timestamp = record.get('timestamp').value
 
       # Match data record timestamps with event timestamps in order to mark
