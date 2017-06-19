@@ -154,7 +154,14 @@ class Activity(fitparse.FitFile):
                                  index=[blocks, time_offsets])
     self.data.index.names = ['block', 'offset']
 
-    self._clean_up_power_and_cadence()
+    # These fields may not exist in all .fit files,
+    # so drop the columns if they're not present.
+    for field in ['power', 'cadence', 'heart_rate']:
+      if self.data[self.data[field].notnull()].empty:
+        self.data.drop(field, axis=1, inplace=True)
+
+    if self.has_power and self.has_cadence:
+      self._clean_up_power_and_cadence()
 
   def _df_from_messages(self, messages, fields, timestamp_index=False):
     """Creates a DataFrame from an iterable of fitparse messages.
@@ -236,7 +243,7 @@ class Activity(fitparse.FitFile):
                             index=timestamps)
 
   def _clean_up_power_and_cadence(self):
-    """Infers true of NaN power and cadence values in simple cases."""
+    """Infers true value of null power and cadence values in simple cases."""
     # If cadence in NaN and power is 0, assume cadence is 0
     self.data.loc[self.data['cadence'].isnull()
                   & (self.data['power'] == 0.0), 'cadence'] = 0.0
@@ -267,7 +274,22 @@ class Activity(fitparse.FitFile):
     return self._moving_time
 
   @property
+  def has_power(self):
+    return 'power' in self.data.columns
+
+  @property
+  def has_cadence(self):
+    return 'cadence' in self.data.columns
+
+  @property
+  def has_heart_rate(self):
+    return 'heart_rate' in self.data.columns
+
+  @property
   def cadence(self):
+    if not self.has_cadence:
+      return None
+
     if self._remove_stopped_periods:
       return self.data[
           self.data['cadence'].notnull() & (self.data['cadence'] > 0)
@@ -278,10 +300,16 @@ class Activity(fitparse.FitFile):
 
   @property
   def mean_cadence(self):
+    if not self.has_cadence:
+      return None
+
     return self.cadence.mean()
 
   @property
   def heart_rate(self):
+    if not self.has_heart_rate:
+      return None
+
     if self._remove_stopped_periods:
       return self.data[
           self.data['heart_rate'].notnull()
@@ -291,10 +319,16 @@ class Activity(fitparse.FitFile):
 
   @property
   def mean_heart_rate(self):
+    if not self.has_heart_rate:
+      return None
+
     return self.heart_rate.mean()
 
   @property
   def power(self):
+    if not self.has_power:
+      return None
+
     if self._remove_stopped_periods:
       return self.data[self.data['power'].notnull()
                        & self.data['speed'] > self.STOPPED_THRESHOLD]['power']
@@ -303,6 +337,9 @@ class Activity(fitparse.FitFile):
 
   @property
   def mean_power(self):
+    if not self.has_power:
+      return None
+
     return self.power.mean()
 
   @property
@@ -334,6 +371,9 @@ class Activity(fitparse.FitFile):
     Returns:
       Normalized power as a float
     """
+    if not self.has_power:
+      return None
+
     if self._norm_power is None:
       p = self.power
       p.index = p.index.droplevel(level='block')
@@ -355,6 +395,9 @@ class Activity(fitparse.FitFile):
     Returns:
       Intensity factor as a float
     """
+    if not self.has_power:
+      return None
+
     return self.norm_power / float(ftp)
 
   def training_stress(self, ftp):
@@ -373,5 +416,8 @@ class Activity(fitparse.FitFile):
     Returns:
       Training stress as a float
     """
+    if not self.has_power:
+      return None
+
     return (self.moving_time.total_seconds() * self.norm_power
             * self.intensity(ftp)) / (float(ftp) * 3600.0) * 100.0
