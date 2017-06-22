@@ -404,11 +404,12 @@ class Activity(fitparse.FitFile):
     """Calculates the training stress of the activity.
 
     This is essentially a power-based version of Banister's heart rate-based
-    TRIMP (training impulse). See (Coggan, 2003) cited in README for details.
-    The formula in that post specifies that average power should be used in
-    the calculation, but normalized power is used here instead because it
-    yields values in line with the numbers from TrainingPeaks; using average
-    power does not.
+    TRIMP (training impulse). Andrew Coggan's introduction of TSS and IF
+    specifies that average power should be used to calculate training stress
+    (Coggan, 2003), but a later post on TrainingPeaks' blog specifies that
+    normalized power should be used (Friel, 2009). Normalized power is used
+    here because it yields values in line with the numbers from TrainingPeaks;
+    using average power does not.
 
     Args:
       ftp: Functional threshold power in Watts.

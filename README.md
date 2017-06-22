@@ -376,6 +376,8 @@ Coggan, Andrew. (2003, March 13). _TSS and IF - at last!_ Retrieved June 14, 201
 
 Eckner, Andreas. (2017, April 3). _Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators._ Retrieved June 14, 2017, from http://eckner.com/papers/Algorithms%20for%20Unevenly%20Spaced%20Time%20Series.pdf
 
+Friel, Joe. (2009, Sept 21). _Estimating Training Stress Score (TSS)._ Retrieved June 22, 2017, from https://www.trainingpeaks.com/blog/estimating-training-stress-score-tss/
+
 # License
 This project is licensed under the MIT License. See
 [LICENSE](https://github.com/mtraver/fitanalysis/blob/master/LICENSE) file
